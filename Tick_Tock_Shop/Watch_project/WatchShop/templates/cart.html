@@ -1,0 +1,57 @@
+
+
+
+{% extends 'main.html' %}
+
+{% block body_block %}
+<div class="container mt-5">
+    {% for item in user_products %}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <img src="{{ item.product.image.url }}" alt="Image not available" class="img-fluid product-img">
+        </div>
+        <div class="col-md-6 product_description">
+            <h2>{{ item.product.name }}</h2>
+            <h3>Amount: Rs {{ item.product.price }}</h3>
+            <p>{{ item.product.description }}</p>
+            <div class="input-group mb-3">
+                <p>Quantity: <span class="product-count">{{ item.cart_count }}</span></p>
+                <button class="btn btn-outline-secondary decrement-btn">-</button>
+                <input type="number" class="form-control text-center quantity-input" value="{{ item.cart_count }}" min="1">
+                <button class="btn btn-outline-secondary increment-btn">+</button>
+            </div>
+            <a href="{% url 'removeCart' id=item.id %}" class="btn btn-primary">Remove</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+
+    quantityInputs.forEach(input => {
+        const decrementBtn = input.previousElementSibling.previousElementSibling;
+        const incrementBtn = input.nextElementSibling;
+        
+        decrementBtn.addEventListener("click", function() {
+            updateQuantity(input, -1);
+        });
+
+        incrementBtn.addEventListener("click", function() {
+            updateQuantity(input, 1);
+        });
+
+        function updateQuantity(input, change) {
+            let currentValue = parseInt(input.value);
+            let newValue = currentValue + change;
+
+            if (newValue < 1) {
+                newValue = 1;
+            }
+            input.value = newValue;
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block body_block %}
+{% load static %}
+
+<!-- Carousel Section -->
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <!-- Ensure these images are correctly placed in your static directory -->
+    <div class="carousel-item active">
+      <img src="{% static 'pic/watchgu.jpeg' %}" class="d-block w-100" alt="Elegant Watch Image">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'pic/placeholder2.jpeg' %}" class="d-block w-100" alt="Placeholder Image 2">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'pic/placeholder3.jpeg' %}" class="d-block w-100" alt="Placeholder Image 3">
+    </div>
+  </div>
+</div>
+
+<!-- Offer Section -->
+<div style="background-color: aliceblue; width: 100%; text-align: center; height: 50px; margin: 10px;">
+  <h5>We are offering 50% off on products!</h5>
+</div>
+
+<!-- Product Cards Section -->
+<div class="container">
+  <div class="row">
+    {% for w_item in watches_t %}
+      <div class="col-md-3 mb-4">
+        <div class="card" style="width: 18rem;">
+          <!-- Ensure the product image URLs are correct -->
+          <img src="{{ w_item.image.url }}" class="card-img-top" alt="{{ w_item.name }}" height="200px" width="200px">
+          <div class="card-body">
+            <h5 class="card-title">{{ w_item.name }} - ${{ w_item.price }}</h5>
+            <p class="card-text">{{ w_item.description }}</p>
+            <!-- Ensure URL patterns are correctly defined in urls.py -->
+            <a href="{% url 'product' w_item.id %}" class="btn btn-primary">View Product</a>
+            <a href="{% url 'addtowish' w_item.id %}" class="btn btn-primary">Add to Wishlist</a>
+            <a href="
+            " class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
